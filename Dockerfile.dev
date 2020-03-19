@@ -1,0 +1,19 @@
+# Use existing docker image
+FROM alpine
+
+#workdir is created by the docker and will become relative path within container
+WORKDIR '/usr/app'
+
+# copy files from local relative directory to a relative directory within container
+# having this before so that npm install has a package.json
+COPY ./package.json ./
+
+
+# Download and install
+RUN apk add --update npm
+RUN npm install
+COPY ./ ./
+
+# Tell image what to do when it starts as a container
+CMD ["npm", "run", "start"]
+
